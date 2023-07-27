@@ -1,3 +1,28 @@
+def SendSlackNotifications(buildStatus = 'SUCCESS') {
+    // build status of null means successful
+    buildStatus = buildStatus ?: 'SUCCESS'
+
+    // Default values
+    def colorName = 'RED'
+    def colorCode = '#FF0000'
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def summary = "${subject} (${env.BUILD_URL})"
+
+    // Override default values based on build status
+    if (buildStatus == 'STARTED') {
+        colorName = 'YELLOW'
+        colorCode = '#FFFF00'
+    } else if (buildStatus == 'SUCCESS') {
+        colorName = 'GREEN'
+        colorCode = '#00FF00'
+    } else {
+        colorName = 'RED'
+        colorCode = '#FF0000'
+    }
+
+    // Return a map with color and summary
+    return [color: colorCode, message: summary]
+}
 pipeline{
     agent any
     options {
@@ -8,6 +33,10 @@ pipeline{
 
         stage('Checkout Code'){
             steps{
+                script {
+                    def notification = SendSlackNotifications('STARTED')
+                    slackSend color: notification.color, message: notification.message, tokenCredentialId: 'bd7c8a19-0508-4d9d-bf45-fa2fd3f03244'
+                }
                 git branch: 'main', credentialsId: 'Srinivas-Git', url: 'https://github.com/krssrinivas7/krssrinivasapp.git'
             }
         }
@@ -31,12 +60,18 @@ pipeline{
         }
        */ 
     }//Stages Closing    
-    post {
+post {
         success {
-            emailext body: 'Success', recipientProviders: [buildUser()], subject: 'Success', to: 'krssrinivas.marolix@gmail.com'
+            script {
+                def notification = SendSlackNotifications(currentBuild.result)
+                slackSend color: notification.color, message: notification.message, tokenCredentialId: 'bd7c8a19-0508-4d9d-bf45-fa2fd3f03244'
+            }
         }
         failure {
-            emailext body: 'Failure', recipientProviders: [buildUser()], subject: 'Failure', to: 'krssrinivas.marolix@gmail.com'
+            script {
+                def notification = SendSlackNotifications(currentBuild.result)
+                slackSend color: notification.color, message: notification.message, tokenCredentialId: 'bd7c8a19-0508-4d9d-bf45-fa2fd3f03244'
+            }
         }
-    }    
+    } 
 }
