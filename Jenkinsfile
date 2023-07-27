@@ -18,7 +18,7 @@ pipeline{
         }
         stage('Deploy'){
             steps{
-                bat 'copy "C:\\JENKINSHOME\\workspace\\Multi-Branch\\target\\KRS-maven-web-app.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps"\\KRS-maven-web-app.war'
+                bat 'copy "C:\\JENKINSHOME\\workspace\\Multi-Branch_Prod\\target\\KRS-maven-web-app.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps"\\KRS-maven-web-app.war'
             }
         }
         /*
