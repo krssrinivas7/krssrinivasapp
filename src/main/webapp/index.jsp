@@ -18,7 +18,7 @@
 
 <a href="https://www.jntuk.edu.in/wp-content/uploads/2019/01/Prathiba-Awards.pdf"> Click here to see list in pdf format</a>
 
-  <h2> Call me : +91 - 99 98 87 76 65 </h2>
+  <h2> Call me : +91 - 99 98 87 76 64 </h2>
   
 </body>
 </html>
