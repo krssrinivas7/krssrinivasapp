@@ -37,7 +37,7 @@ pipeline{
                     def notification = SendSlackNotifications('STARTED')
                     slackSend color: notification.color, message: notification.message, tokenCredentialId: 'bd7c8a19-0508-4d9d-bf45-fa2fd3f03244'
                 }
-                git branch: 'main', credentialsId: 'Srinivas-Git', url: 'https://github.com/krssrinivas7/krssrinivasapp.git'
+                git branch: 'QA', credentialsId: 'Srinivas-Git', url: 'https://github.com/krssrinivas7/krssrinivasapp.git'
             }
         }
         stage('Build'){
